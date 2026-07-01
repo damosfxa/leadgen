@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
-import { ArrowRight, CheckCircle2, ShieldCheck, Zap, HeadphonesIcon, ExternalLink, MessageCircle, Globe, Sparkles } from "lucide-react"
+import { ArrowRight, CheckCircle2, ShieldCheck, Zap, HeadphonesIcon, ExternalLink, MessageCircle, Globe, Sparkles, Code, Palette, MonitorSmartphone } from "lucide-react"
 
 // Supabase fetching logic
 async function fetchData() {
@@ -155,30 +155,61 @@ export default async function LandingPage() {
       {/* FILOSOFI */}
       <section id="filosofi" className="py-24 bg-zinc-50 border-y border-zinc-100">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+          
+          {/* LEFT: 3 CARDS */}
+          <div className="space-y-4 md:pr-8">
+            <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-5 flex items-center gap-5">
+              <div className="bg-indigo-50 text-indigo-600 rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
+                <Code className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-zinc-900 text-[15px] mb-0.5">WordPress & Elementor</h4>
+                <p className="text-sm text-zinc-500">Platform terpercaya yang mudah dikelola</p>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-5 flex items-center gap-5">
+              <div className="bg-indigo-50 text-indigo-600 rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
+                <Palette className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-zinc-900 text-[15px] mb-0.5">Desain Custom</h4>
+                <p className="text-sm text-zinc-500">Tampilan unik sesuai brand travel Anda</p>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-5 flex items-center gap-5">
+              <div className="bg-indigo-50 text-indigo-600 rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
+                <MonitorSmartphone className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-zinc-900 text-[15px] mb-0.5">Responsif di Semua Perangkat</h4>
+                <p className="text-sm text-zinc-500">Tampil sempurna di HP, tablet, & laptop</p>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: TEXT */}
           <div>
-            <h2 className="text-indigo-600 font-bold mb-2 uppercase tracking-wide text-sm">Tentang</h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold mb-6 text-zinc-900 tracking-tight">{filosofiTitle}</h3>
-            <p className="text-zinc-600 text-lg leading-relaxed mb-6">
+            <h2 className="text-indigo-600 font-bold mb-4 uppercase tracking-widest text-sm">Tentang Kami</h2>
+            <h3 className="text-3xl md:text-4xl font-extrabold mb-6 text-zinc-900 tracking-tight">
+              <HighlightText text={filosofiTitle} />
+            </h3>
+            <p className="text-zinc-500 text-[17px] leading-relaxed mb-6">
               {filosofiDesc1}
             </p>
-            <p className="text-zinc-600 text-lg leading-relaxed mb-8">
+            <p className="text-zinc-500 text-[17px] leading-relaxed mb-10">
               {filosofiDesc2}
             </p>
             <a 
-              href={`${waLink}?text=Halo,%20saya%20ingin%20konsultasi.`}
-              className="inline-flex items-center gap-2 font-bold text-indigo-700 hover:text-indigo-900"
+              href={`${waLink}?text=Halo,%20saya%20ingin%20menceritakan%20kebutuhan%20website%20saya.`}
+              className="inline-flex items-center gap-2 bg-indigo-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-indigo-950 transition-colors shadow-lg shadow-indigo-900/20"
             >
-              Konsultasi Gratis <ArrowRight className="w-5 h-5" />
+              <MessageCircle className="w-5 h-5" />
+              Ceritakan Kebutuhan Anda
             </a>
           </div>
-          <div className="bg-indigo-900 aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden relative shadow-2xl flex items-center justify-center text-indigo-200">
-            <div className="text-center p-8">
-              <div className="w-20 h-20 bg-indigo-800/50 text-indigo-300 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-indigo-700">
-                <Zap className="w-10 h-10" />
-              </div>
-              <p className="font-medium">Fast & Modern Ecosystem</p>
-            </div>
-          </div>
+
         </div>
       </section>
 
