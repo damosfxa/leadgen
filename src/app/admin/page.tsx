@@ -100,7 +100,6 @@ export default function AdminDashboard() {
   const heroSettings = settings.filter(s => s.key.startsWith("hero_") || s.key === "whatsapp_number")
   const filosofiSettings = settings.filter(s => s.key.startsWith("filosofi_"))
   const keunggulanSettings = settings.filter(s => s.key.startsWith("keunggulan_"))
-  const portfolioSettings = settings.filter(s => s.key.startsWith("portfolio_"))
   const pricingSettings = settings.filter(s => s.key.startsWith("pricing_"))
   const ctaSettings = settings.filter(s => s.key.startsWith("cta_"))
 
@@ -193,7 +192,6 @@ export default function AdminDashboard() {
             {renderSettingsGroup("Pengaturan Hero & Kontak", heroSettings)}
             {renderSettingsGroup("Pengaturan Filosofi", filosofiSettings)}
             {renderSettingsGroup("Pengaturan Keunggulan", keunggulanSettings)}
-            {renderSettingsGroup("Pengaturan Portofolio", portfolioSettings)}
             {renderSettingsGroup("Pengaturan Headline Harga", pricingSettings)}
             {renderSettingsGroup("Pengaturan Footer CTA", ctaSettings)}
           </div>
