@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
-import { ArrowRight, CheckCircle2, ShieldCheck, Zap, HeadphonesIcon, ExternalLink, MessageCircle, Globe, Sparkles, Code, Palette, MonitorSmartphone } from "lucide-react"
+import { ArrowRight, CheckCircle2, ShieldCheck, Zap, HeadphonesIcon, ExternalLink, MessageCircle, Globe, Sparkles, Code, Palette, MonitorSmartphone, TrendingUp } from "lucide-react"
 
 // Supabase fetching logic
 async function fetchData() {
@@ -215,50 +215,53 @@ export default async function LandingPage() {
 
       {/* KEUNGGULAN */}
       <section id="keunggulan" className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
-            <h2 className="text-indigo-600 font-bold mb-2 uppercase tracking-wide text-sm">Kelebihan</h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold mb-4 text-zinc-900 tracking-tight">{keunggulanTitle}</h3>
-            <p className="text-zinc-500 text-lg">{keunggulanDesc}</p>
+            <h2 className="text-indigo-600 font-bold mb-4 uppercase tracking-widest text-sm">Kelebihan Kami</h2>
+            <h3 className="text-3xl md:text-4xl font-extrabold mb-4 text-zinc-900 tracking-tight">
+              <HighlightText text={keunggulanTitle} />
+            </h3>
+            <p className="text-zinc-500 text-[17px] leading-relaxed">{keunggulanDesc}</p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-x-12 gap-y-12">
-            <div className="flex gap-5">
-              <div className="flex-shrink-0 w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center">
-                <Zap className="w-7 h-7" />
+          <div className="grid md:grid-cols-4 gap-6">
+            
+            {/* Card 1 */}
+            <div className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
+              <div className="bg-indigo-50 text-indigo-600 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-indigo-900 group-hover:text-white">
+                <Zap className="w-6 h-6" />
               </div>
-              <div>
-                <h4 className="text-xl font-bold mb-2 text-zinc-900">Eksekusi Tangkas</h4>
-                <p className="text-zinc-500 leading-relaxed">Pengiriman proyek tepat waktu dengan standar akurasi tinggi.</p>
-              </div>
+              <h4 className="text-lg font-bold mb-4 text-zinc-900">Proses Cepat & Tepat</h4>
+              <p className="text-zinc-500 text-sm leading-relaxed">Website travel Anda siap dalam hitungan hari, bukan minggu. Kami bekerja efisien tanpa mengorbankan kualitas, supaya bisnis Anda bisa segera go online.</p>
             </div>
-            <div className="flex gap-5">
-              <div className="flex-shrink-0 w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center">
-                <ShieldCheck className="w-7 h-7" />
+            
+            {/* Card 2 */}
+            <div className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
+              <div className="bg-indigo-50 text-indigo-600 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-indigo-900 group-hover:text-white">
+                <ShieldCheck className="w-6 h-6" />
               </div>
-              <div>
-                <h4 className="text-xl font-bold mb-2 text-zinc-900">Keamanan Enterprise</h4>
-                <p className="text-zinc-500 leading-relaxed">Infrastruktur data solid menjamin integritas aset digital Anda.</p>
-              </div>
+              <h4 className="text-lg font-bold mb-4 text-zinc-900">Aman & Terpercaya</h4>
+              <p className="text-zinc-500 text-sm leading-relaxed">Setiap website dilengkapi SSL, keamanan berlapis, dan backup rutin. Data bisnis travel Anda terlindungi dengan baik, jadi Anda bisa fokus jualan.</p>
             </div>
-            <div className="flex gap-5">
-              <div className="flex-shrink-0 w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center">
-                <CheckCircle2 className="w-7 h-7" />
+            
+            {/* Card 3 */}
+            <div className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
+              <div className="bg-indigo-50 text-indigo-600 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-indigo-900 group-hover:text-white">
+                <TrendingUp className="w-6 h-6" />
               </div>
-              <div>
-                <h4 className="text-xl font-bold mb-2 text-zinc-900">SEO & Performa Optimal</h4>
-                <p className="text-zinc-500 leading-relaxed">Arsitektur web yang dirancang disukai oleh algoritma mesin pencari.</p>
-              </div>
+              <h4 className="text-lg font-bold mb-4 text-zinc-900">SEO Friendly</h4>
+              <p className="text-zinc-500 text-sm leading-relaxed">Website Anda dioptimasi agar mudah muncul di halaman pertama Google. Calon traveler bisa menemukan bisnis Anda dengan lebih mudah tanpa iklan mahal.</p>
             </div>
-            <div className="flex gap-5">
-              <div className="flex-shrink-0 w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center">
-                <HeadphonesIcon className="w-7 h-7" />
+            
+            {/* Card 4 */}
+            <div className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
+              <div className="bg-indigo-50 text-indigo-600 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-indigo-900 group-hover:text-white">
+                <HeadphonesIcon className="w-6 h-6" />
               </div>
-              <div>
-                <h4 className="text-xl font-bold mb-2 text-zinc-900">Dukungan Pasca-Peluncuran</h4>
-                <p className="text-zinc-500 leading-relaxed">Kami berkomitmen memberikan pemeliharaan berkelanjutan.</p>
-              </div>
+              <h4 className="text-lg font-bold mb-4 text-zinc-900">Support Setelah Jadi</h4>
+              <p className="text-zinc-500 text-sm leading-relaxed">Kami nggak lepas tangan setelah website jadi. Ada masa garansi support gratis untuk bantu Anda kalau ada kendala atau butuh perubahan kecil.</p>
             </div>
+
           </div>
         </div>
       </section>
