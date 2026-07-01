@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
-import { ArrowRight, CheckCircle2, ShieldCheck, Zap, HeadphonesIcon, ExternalLink, MessageCircle, Globe, Sparkles, Code, Palette, MonitorSmartphone, TrendingUp } from "lucide-react"
+import { ArrowRight, CheckCircle2, ShieldCheck, Zap, HeadphonesIcon, ExternalLink, MessageCircle, Globe, Sparkles, Code, Palette, MonitorSmartphone, TrendingUp, Star } from "lucide-react"
 
 // Supabase fetching logic
 async function fetchData() {
@@ -267,60 +267,77 @@ export default async function LandingPage() {
       </section>
 
       {/* HARGA SECTION */}
-      <section id="harga" className="py-24 bg-zinc-50 border-t border-zinc-100">
+      <section id="harga" className="py-24 bg-[#F8F9FA] border-t border-zinc-100">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
-            <h2 className="text-indigo-600 font-bold mb-2 uppercase tracking-wide text-sm">Harga</h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold mb-4 text-zinc-900 tracking-tight">{pricingTitle}</h3>
-            <p className="text-zinc-500 text-lg">{pricingDesc}</p>
+            <h2 className="text-indigo-700 font-bold mb-4 uppercase tracking-widest text-sm">Paket Harga</h2>
+            <h3 className="text-3xl md:text-4xl font-extrabold mb-6 text-zinc-900 tracking-tight">
+              <HighlightText text={pricingTitle} />
+            </h3>
+            <p className="text-zinc-500 text-[16px] leading-relaxed max-w-lg mx-auto">{pricingDesc}</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 items-center">
+          <div className="grid md:grid-cols-3 gap-6 items-start">
             {packages.map((pkg) => {
               const isPopular = pkg.id === "populer";
+              
+              // Hardcoded Features matching screenshot
+              let features: string[] = [];
+              if (pkg.id === "starter") {
+                features = ["1-2 Halaman", "Include Hosting 1 tahun", "Free Copywriting", "Integrasi google maps", "Tombol ctwa/whatsapp", "Formulir Kontak / email", "Free Domain 1 tahun (.com, .id, dll)", "Optimasi SEO Basic", "Free SSL/Keamanan", "Mobile friendly", "Gratis revisi minor (kecil)", "Optimasi kecepatan (Lazy Load + Caching Tools)", "4x Revisi Mayor (besar)"];
+              } else if (pkg.id === "populer") {
+                features = ["Free Copywriting", "Tampilan Modern - Tamu auto trust", "Include Hosting 1 tahun", "Sistem Booking wa otomatis", "Tombol ctwa/whatsapp", "Integrasi google maps", "4-5 Halaman", "Mobile friendly", "Optimasi SEO Basic", "Desain visual lebih kompleks (CTA, Form, Galeri)", "Free Domain 1 tahun (.com, .id, dll)", "Gallery Paket Wisata", "SSL & Keamanan Premium", "Gratis revisi minor (kecil)", "6x Revisi Mayor (besar)", "Garansi Maintenance 1 Bulan", "Optimasi kecepatan (Lazy Load + Caching Tools)"];
+              } else {
+                features = ["Fokus pada trust", "Include Hosting 1 tahun", "Sistem Booking & payment gateway", "Tombol ctwa/whatsapp", "Integrasi google maps", "Free Copywriting", "5-7 Halaman Utama (Home, About Us, Tour Packages, Gallery, Blog, Contact, Testimonial)", "Mobile friendly", "Optimasi SEO Basic", "Design Modern", "Free Domain 1 tahun (.com, .id, dll)", "Gallery Paket Wisata", "SSL & Keamanan Premium", "Gratis revisi minor (kecil)", "6x Revisi Mayor (besar)", "Garansi Maintenance 1 Bulan", "Optimasi kecepatan (Lazy Load + Caching Tools)"];
+              }
+
               return (
                 <div 
                   key={pkg.id} 
-                  className={`bg-white rounded-[2rem] p-8 transition-all duration-300 ${
+                  className={`bg-white rounded-2xl overflow-hidden transition-all duration-300 ${
                     isPopular 
-                      ? 'border-2 border-indigo-900 shadow-2xl scale-105 z-10 relative' 
-                      : 'border border-zinc-200 shadow-sm hover:shadow-md'
+                      ? 'border-[3px] border-[#10037a] shadow-xl relative' 
+                      : 'border border-zinc-200 shadow-sm mt-0 md:mt-8'
                   }`}
                 >
                   {isPopular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigo-900 text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase shadow-md">
+                    <div className="bg-[#10037a] text-white py-2 text-center text-xs font-bold flex items-center justify-center gap-1.5">
+                      <Star className="w-3.5 h-3.5 fill-white" />
                       Paling Populer
                     </div>
                   )}
-                  <h4 className="text-xl font-bold mb-2 text-zinc-900">{pkg.name}</h4>
-                  <div className="text-3xl font-extrabold mb-4 text-zinc-900">{pkg.price}</div>
-                  <p className="text-zinc-500 mb-8 min-h-[48px] text-sm leading-relaxed">{pkg.description}</p>
                   
-                  <div className="space-y-4 mb-8">
-                    <div className="flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-indigo-600 flex-shrink-0" />
-                      <span className="text-sm font-medium text-zinc-700">Custom UI Design</span>
+                  <div className="p-8">
+                    <h4 className="text-xl font-bold mb-3 text-zinc-900">{pkg.name}</h4>
+                    <p className="text-zinc-500 mb-8 min-h-[60px] text-sm leading-relaxed">{pkg.description}</p>
+                    
+                    <div className="flex items-baseline gap-1 mb-8">
+                      <span className="text-zinc-500 font-medium text-sm">Rp</span>
+                      <span className="text-4xl font-extrabold text-zinc-900">{pkg.price}</span>
+                      <span className="text-zinc-500 font-medium text-sm">Jt</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-indigo-600 flex-shrink-0" />
-                      <span className="text-sm font-medium text-zinc-700">Next.js Framework</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-indigo-600 flex-shrink-0" />
-                      <span className="text-sm font-medium text-zinc-700">SEO Optimized</span>
+
+                    <a 
+                      href={`${waLink}?text=Halo,%20saya%20tertarik%20dengan%20paket%20${pkg.name}.`}
+                      className={`w-full py-3 rounded-lg font-bold transition-colors flex items-center justify-center gap-2 mb-8 ${
+                        isPopular
+                          ? 'bg-[#10037a] text-white hover:bg-indigo-950'
+                          : 'bg-white text-[#10037a] border border-[#10037a] hover:bg-indigo-50'
+                      }`}
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      Pilih Paket Ini
+                    </a>
+
+                    <div className="space-y-4">
+                      {features.map((feat, idx) => (
+                        <div key={idx} className="flex items-start gap-3">
+                          <CheckCircle2 className="w-4 h-4 text-indigo-200 fill-indigo-50 flex-shrink-0 mt-0.5" />
+                          <span className="text-[13px] font-medium text-zinc-500 leading-tight">{feat}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-
-                  <a 
-                    href={`${waLink}?text=Halo,%20saya%20tertarik%20dengan%20paket%20${pkg.name}.`}
-                    className={`block text-center w-full py-4 rounded-xl font-bold transition-colors ${
-                      isPopular
-                        ? 'bg-indigo-900 text-white hover:bg-indigo-950 shadow-md shadow-indigo-900/20'
-                        : 'bg-indigo-50 text-indigo-900 hover:bg-indigo-100'
-                    }`}
-                  >
-                    Pilih Paket
-                  </a>
                 </div>
               )
             })}
