@@ -19,7 +19,7 @@ export function Reveal({ children, delay = 0, className = "", direction = "up" }
         className={className}
         initial={{ opacity: 0, y: yOffset, x: xOffset }}
         whileInView={{ opacity: 1, y: 0, x: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
+        viewport={{ once: false, margin: "-50px" }}
         transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
       >
         {children}
