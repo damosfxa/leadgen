@@ -100,11 +100,6 @@ export default async function LandingPage() {
       {/* 1. HERO SECTION */}
       <section className="pt-20 pb-16 md:pt-28 md:pb-24 px-6 text-center max-w-4xl mx-auto relative">
         <div className="absolute inset-0 bg-[radial-gradient(#f4f4f5_1px,transparent_1px)] [background-size:24px_24px] opacity-50 -z-10"></div>
-        
-        <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 text-indigo-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-8 shadow-sm">
-          <Sparkles className="w-4 h-4" />
-          <span>Freelancer Website Travel</span>
-        </div>
 
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-8 leading-[1.15] text-zinc-900">
           <HighlightText text={heroTitle} />
