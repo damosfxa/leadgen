@@ -72,7 +72,6 @@ export default async function LandingPage() {
           <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600">
             <a href="#filosofi" className="hover:text-black transition-colors">Filosofi</a>
             <a href="#keunggulan" className="hover:text-black transition-colors">Keunggulan</a>
-            <a href="#portofolio" className="hover:text-black transition-colors">Portofolio</a>
             <a href="#harga" className="hover:text-black transition-colors">Investasi</a>
           </div>
           <a 
@@ -204,24 +203,6 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* PORTOFOLIO CTA SECTION */}
-      <section id="portofolio" className="py-24 bg-zinc-100 border-t border-zinc-200">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-blue-600 font-bold mb-2 uppercase tracking-wide text-sm">Portofolio</h2>
-          <h3 className="text-3xl md:text-4xl font-bold mb-6 text-zinc-900">{portfolioTitle}</h3>
-          <p className="text-zinc-600 text-lg mb-10 max-w-2xl mx-auto">
-            {portfolioDesc}
-          </p>
-          <a 
-            href={portfolioUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 bg-white border border-zinc-300 text-zinc-900 px-8 py-4 font-semibold rounded-full hover:bg-zinc-50 transition-all text-lg shadow-sm"
-          >
-            Kunjungi Portofolio <ExternalLink className="w-5 h-5" />
-          </a>
-        </div>
-      </section>
 
       {/* HARGA SECTION (RESTORED EXACT CLONE) */}
       <section id="harga" className="py-24 bg-white border-t border-zinc-200">
