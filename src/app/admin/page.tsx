@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { createBrowserClient } from "@supabase/ssr"
 import { useRouter } from "next/navigation"
-import { LogOut } from "lucide-react"
+import { LogOut, Save, LayoutTemplate, DollarSign } from "lucide-react"
 
 type SiteSetting = {
   key: string
@@ -10,11 +10,21 @@ type SiteSetting = {
   value: string
 }
 
+type Package = {
+  id: string
+  name: string
+  price: string
+  description: string
+}
+
 export default function AdminDashboard() {
+  const [activeTab, setActiveTab] = useState<"content" | "pricing">("content")
   const [settings, setSettings] = useState<SiteSetting[]>([])
+  const [packages, setPackages] = useState<Package[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState("")
+  
   const router = useRouter()
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -22,19 +32,34 @@ export default function AdminDashboard() {
   )
 
   useEffect(() => {
-    fetchSettings()
+    fetchData()
   }, [])
 
-  const fetchSettings = async () => {
-    const { data } = await supabase.from("site_settings").select("*").order("key")
-    if (data) {
-      setSettings(data)
+  const fetchData = async () => {
+    setLoading(true)
+    const [settingsRes, packagesRes] = await Promise.all([
+      supabase.from("site_settings").select("*").order("key"),
+      supabase.from("pricing_packages").select("*").order("id")
+    ])
+
+    if (settingsRes.data) {
+      // Grouping logic for UI can be done inline, but we'll just sort them roughly
+      setSettings(settingsRes.data)
+    }
+    if (packagesRes.data) {
+      const order = ["starter", "populer", "professional"]
+      const sorted = packagesRes.data.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
+      setPackages(sorted)
     }
     setLoading(false)
   }
 
-  const handleUpdate = async (key: string, newValue: string) => {
+  const handleUpdateSetting = (key: string, newValue: string) => {
     setSettings(settings.map(s => s.key === key ? { ...s, value: newValue } : s))
+  }
+
+  const handleUpdatePackage = (id: string, field: keyof Package, value: string) => {
+    setPackages(packages.map(p => p.id === id ? { ...p, [field]: value } : p))
   }
 
   const handleSave = async () => {
@@ -42,9 +67,16 @@ export default function AdminDashboard() {
     setMessage("")
     let hasError = false
     
-    for (const setting of settings) {
-      const { error } = await supabase.from("site_settings").update({ value: setting.value }).eq("key", setting.key)
-      if (error) hasError = true
+    if (activeTab === "content") {
+      for (const setting of settings) {
+        const { error } = await supabase.from("site_settings").update({ value: setting.value }).eq("key", setting.key)
+        if (error) hasError = true
+      }
+    } else {
+      for (const pkg of packages) {
+        const { error } = await supabase.from("pricing_packages").update(pkg).eq("id", pkg.id)
+        if (error) hasError = true
+      }
     }
 
     if (!hasError) {
@@ -62,66 +94,153 @@ export default function AdminDashboard() {
     router.refresh()
   }
 
-  if (loading) return <div className="p-8 text-black">Loading admin...</div>
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-zinc-600">Memuat data panel admin...</div>
+
+  // Group settings by section
+  const heroSettings = settings.filter(s => s.key.startsWith("hero_") || s.key === "whatsapp_number")
+  const filosofiSettings = settings.filter(s => s.key.startsWith("filosofi_"))
+  const keunggulanSettings = settings.filter(s => s.key.startsWith("keunggulan_"))
+  const portfolioSettings = settings.filter(s => s.key.startsWith("portfolio_"))
+  const pricingSettings = settings.filter(s => s.key.startsWith("pricing_"))
+  const ctaSettings = settings.filter(s => s.key.startsWith("cta_"))
+
+  const renderSettingsGroup = (title: string, group: SiteSetting[]) => (
+    <div className="mb-10 bg-white border border-zinc-200 shadow-sm rounded-xl overflow-hidden">
+      <div className="bg-zinc-50 border-b border-zinc-200 px-6 py-4">
+        <h3 className="font-bold text-zinc-900">{title}</h3>
+      </div>
+      <div className="p-6 space-y-6">
+        {group.map(setting => (
+          <div key={setting.key}>
+            <label className="block text-sm font-semibold text-zinc-700 mb-2">{setting.label}</label>
+            {setting.key.includes("desc") || setting.key.includes("value") ? (
+              <textarea 
+                value={setting.value}
+                onChange={(e) => handleUpdateSetting(setting.key, e.target.value)}
+                className="w-full border border-zinc-300 rounded-lg p-3 text-black focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 min-h-[100px]" 
+              />
+            ) : (
+              <input 
+                type="text" 
+                value={setting.value}
+                onChange={(e) => handleUpdateSetting(setting.key, e.target.value)}
+                className="w-full border border-zinc-300 rounded-lg p-3 text-black focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" 
+              />
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 
   return (
-    <div className="min-h-screen bg-zinc-50 p-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-zinc-900">Admin Dashboard</h1>
+    <div className="min-h-screen bg-zinc-50">
+      <div className="bg-white border-b border-zinc-200 sticky top-0 z-50">
+        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+          <h1 className="text-xl font-bold text-zinc-900">LeadGen Admin</h1>
           <button 
             onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 bg-zinc-200 text-zinc-900 font-medium hover:bg-zinc-300 transition-colors"
+            className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 transition-colors"
           >
             <LogOut className="w-4 h-4" />
             Logout
           </button>
         </div>
+      </div>
 
-        <div className="bg-white border border-zinc-200 p-8 shadow-sm">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <h2 className="text-xl font-bold text-black">Pengaturan Konten Website</h2>
-            <button 
-              onClick={handleSave}
-              disabled={saving}
-              className="bg-black text-white px-6 py-2 font-medium hover:bg-zinc-800 disabled:opacity-50 w-full sm:w-auto"
+      <div className="max-w-5xl mx-auto px-6 py-8">
+        
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <div className="flex bg-zinc-200/50 p-1 rounded-lg">
+            <button
+              onClick={() => setActiveTab("content")}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                activeTab === "content" ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-900"
+              }`}
             >
-              {saving ? "Menyimpan..." : "Simpan Perubahan"}
+              <LayoutTemplate className="w-4 h-4" />
+              Konten Website
+            </button>
+            <button
+              onClick={() => setActiveTab("pricing")}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                activeTab === "pricing" ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-900"
+              }`}
+            >
+              <DollarSign className="w-4 h-4" />
+              Paket Harga
             </button>
           </div>
-          
-          {message && (
-            <div className={`p-3 mb-6 text-sm ${message.includes("Berhasil") ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"}`}>
-              {message}
-            </div>
-          )}
 
-          <div className="space-y-6">
-            {settings.map(setting => (
-              <div key={setting.key} className="p-6 border border-zinc-100 bg-zinc-50/50">
-                <label className="block text-sm font-bold text-zinc-900 mb-2">{setting.label}</label>
-                {setting.key.includes("description") ? (
-                  <textarea 
-                    value={setting.value}
-                    onChange={(e) => handleUpdate(setting.key, e.target.value)}
-                    className="w-full border border-zinc-300 p-3 text-black focus:outline-none focus:border-zinc-500 min-h-[100px]" 
-                  />
-                ) : (
-                  <input 
-                    type="text" 
-                    value={setting.value}
-                    onChange={(e) => handleUpdate(setting.key, e.target.value)}
-                    className="w-full border border-zinc-300 p-3 text-black focus:outline-none focus:border-zinc-500" 
-                  />
-                )}
-              </div>
-            ))}
-            
-            {settings.length === 0 && (
-              <div className="text-zinc-500 italic p-4">Tidak ada data pengaturan. Pastikan migrasi SQL telah dijalankan.</div>
-            )}
-          </div>
+          <button 
+            onClick={handleSave}
+            disabled={saving}
+            className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors w-full sm:w-auto justify-center"
+          >
+            <Save className="w-4 h-4" />
+            {saving ? "Menyimpan..." : "Simpan Perubahan"}
+          </button>
         </div>
+
+        {message && (
+          <div className={`p-4 rounded-lg mb-8 text-sm font-medium ${message.includes("Berhasil") ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"}`}>
+            {message}
+          </div>
+        )}
+
+        {activeTab === "content" && (
+          <div className="space-y-8">
+            {renderSettingsGroup("Pengaturan Hero & Kontak", heroSettings)}
+            {renderSettingsGroup("Pengaturan Filosofi", filosofiSettings)}
+            {renderSettingsGroup("Pengaturan Keunggulan", keunggulanSettings)}
+            {renderSettingsGroup("Pengaturan Portofolio", portfolioSettings)}
+            {renderSettingsGroup("Pengaturan Headline Harga", pricingSettings)}
+            {renderSettingsGroup("Pengaturan Footer CTA", ctaSettings)}
+          </div>
+        )}
+
+        {activeTab === "pricing" && (
+          <div className="bg-white border border-zinc-200 shadow-sm rounded-xl overflow-hidden">
+             <div className="bg-zinc-50 border-b border-zinc-200 px-6 py-4">
+              <h3 className="font-bold text-zinc-900">Kelola Kartu Harga</h3>
+            </div>
+            <div className="p-6">
+              <div className="grid md:grid-cols-3 gap-6">
+                {packages.map(pkg => (
+                  <div key={pkg.id} className="border border-zinc-200 rounded-xl p-6 bg-zinc-50/30">
+                    <div className="mb-4">
+                      <label className="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">Nama Paket</label>
+                      <input 
+                        type="text" 
+                        value={pkg.name}
+                        onChange={(e) => handleUpdatePackage(pkg.id, "name", e.target.value)}
+                        className="w-full border border-zinc-300 rounded-lg p-2.5 text-black font-semibold focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" 
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">Harga</label>
+                      <input 
+                        type="text" 
+                        value={pkg.price}
+                        onChange={(e) => handleUpdatePackage(pkg.id, "price", e.target.value)}
+                        className="w-full border border-zinc-300 rounded-lg p-2.5 text-black font-mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">Deskripsi Fitur</label>
+                      <textarea 
+                        value={pkg.description}
+                        onChange={(e) => handleUpdatePackage(pkg.id, "description", e.target.value)}
+                        className="w-full border border-zinc-300 rounded-lg p-2.5 text-black text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 h-24" 
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   )
