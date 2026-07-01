@@ -4,15 +4,14 @@ import { createBrowserClient } from "@supabase/ssr"
 import { useRouter } from "next/navigation"
 import { LogOut } from "lucide-react"
 
-type Package = {
-  id: string
-  name: string
-  price: string
-  description: string
+type SiteSetting = {
+  key: string
+  label: string
+  value: string
 }
 
 export default function AdminDashboard() {
-  const [packages, setPackages] = useState<Package[]>([])
+  const [settings, setSettings] = useState<SiteSetting[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState("")
@@ -23,22 +22,19 @@ export default function AdminDashboard() {
   )
 
   useEffect(() => {
-    fetchPackages()
+    fetchSettings()
   }, [])
 
-  const fetchPackages = async () => {
-    const { data } = await supabase.from("pricing_packages").select("*").order("id")
+  const fetchSettings = async () => {
+    const { data } = await supabase.from("site_settings").select("*").order("key")
     if (data) {
-      // Sort to match Starter, Populer, Professional
-      const order = ["starter", "populer", "professional"]
-      const sorted = data.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
-      setPackages(sorted)
+      setSettings(data)
     }
     setLoading(false)
   }
 
-  const handleUpdate = async (id: string, field: keyof Package, value: string) => {
-    setPackages(packages.map(p => p.id === id ? { ...p, [field]: value } : p))
+  const handleUpdate = async (key: string, newValue: string) => {
+    setSettings(settings.map(s => s.key === key ? { ...s, value: newValue } : s))
   }
 
   const handleSave = async () => {
@@ -46,8 +42,8 @@ export default function AdminDashboard() {
     setMessage("")
     let hasError = false
     
-    for (const pkg of packages) {
-      const { error } = await supabase.from("pricing_packages").update(pkg).eq("id", pkg.id)
+    for (const setting of settings) {
+      const { error } = await supabase.from("site_settings").update({ value: setting.value }).eq("key", setting.key)
       if (error) hasError = true
     }
 
@@ -70,7 +66,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-zinc-50 p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-zinc-900">Admin Dashboard</h1>
           <button 
@@ -83,12 +79,12 @@ export default function AdminDashboard() {
         </div>
 
         <div className="bg-white border border-zinc-200 p-8 shadow-sm">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-black">Kelola Harga Paket</h2>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+            <h2 className="text-xl font-bold text-black">Pengaturan Konten Website</h2>
             <button 
               onClick={handleSave}
               disabled={saving}
-              className="bg-black text-white px-6 py-2 font-medium hover:bg-zinc-800 disabled:opacity-50"
+              className="bg-black text-white px-6 py-2 font-medium hover:bg-zinc-800 disabled:opacity-50 w-full sm:w-auto"
             >
               {saving ? "Menyimpan..." : "Simpan Perubahan"}
             </button>
@@ -100,38 +96,30 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          <div className="space-y-8">
-            {packages.map(pkg => (
-              <div key={pkg.id} className="grid md:grid-cols-3 gap-6 p-6 border border-zinc-100 bg-zinc-50/50">
-                <div>
-                  <label className="block text-sm font-semibold text-zinc-900 mb-1">Nama Paket</label>
+          <div className="space-y-6">
+            {settings.map(setting => (
+              <div key={setting.key} className="p-6 border border-zinc-100 bg-zinc-50/50">
+                <label className="block text-sm font-bold text-zinc-900 mb-2">{setting.label}</label>
+                {setting.key.includes("description") ? (
+                  <textarea 
+                    value={setting.value}
+                    onChange={(e) => handleUpdate(setting.key, e.target.value)}
+                    className="w-full border border-zinc-300 p-3 text-black focus:outline-none focus:border-zinc-500 min-h-[100px]" 
+                  />
+                ) : (
                   <input 
                     type="text" 
-                    value={pkg.name}
-                    onChange={(e) => handleUpdate(pkg.id, "name", e.target.value)}
-                    className="w-full border border-zinc-300 p-2 text-black focus:outline-none focus:border-zinc-500" 
+                    value={setting.value}
+                    onChange={(e) => handleUpdate(setting.key, e.target.value)}
+                    className="w-full border border-zinc-300 p-3 text-black focus:outline-none focus:border-zinc-500" 
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-zinc-900 mb-1">Harga</label>
-                  <input 
-                    type="text" 
-                    value={pkg.price}
-                    onChange={(e) => handleUpdate(pkg.id, "price", e.target.value)}
-                    className="w-full border border-zinc-300 p-2 text-black focus:outline-none focus:border-zinc-500 font-mono" 
-                  />
-                </div>
-                <div className="md:col-span-3">
-                  <label className="block text-sm font-semibold text-zinc-900 mb-1">Deskripsi Singkat</label>
-                  <input 
-                    type="text" 
-                    value={pkg.description}
-                    onChange={(e) => handleUpdate(pkg.id, "description", e.target.value)}
-                    className="w-full border border-zinc-300 p-2 text-black focus:outline-none focus:border-zinc-500" 
-                  />
-                </div>
+                )}
               </div>
             ))}
+            
+            {settings.length === 0 && (
+              <div className="text-zinc-500 italic p-4">Tidak ada data pengaturan. Pastikan migrasi SQL telah dijalankan.</div>
+            )}
           </div>
         </div>
       </div>
