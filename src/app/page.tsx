@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
 import { ArrowRight, CheckCircle2, ShieldCheck, Zap, HeadphonesIcon, ExternalLink, MessageCircle, Globe, Sparkles, Code, Palette, MonitorSmartphone, TrendingUp, Star } from "lucide-react"
+import { Reveal } from "@/components/reveal"
 
 // Supabase fetching logic
 async function fetchData() {
@@ -101,54 +102,56 @@ export default async function LandingPage() {
       <section className="pt-20 pb-16 md:pt-28 md:pb-24 px-6 text-center max-w-4xl mx-auto relative">
         <div className="absolute inset-0 bg-[radial-gradient(#f4f4f5_1px,transparent_1px)] [background-size:24px_24px] opacity-50 -z-10"></div>
 
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-8 leading-[1.15] text-zinc-900">
-          <HighlightText text={heroTitle} />
-        </h1>
-        
-        <p className="text-lg md:text-xl text-zinc-500 mb-12 max-w-2xl mx-auto leading-relaxed">
-          {heroDesc}
-        </p>
-        
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a 
-            href={`${waLink}?text=Halo,%20saya%20tertarik%20untuk%20konsultasi%20website%20travel.`}
-            className="w-full sm:w-auto bg-indigo-900 text-white px-8 py-4 font-bold rounded-xl hover:bg-indigo-950 transition-all text-[15px] flex items-center justify-center gap-2 shadow-lg shadow-indigo-900/20"
-          >
-            <MessageCircle className="w-5 h-5" />
-            Konsultasi Gratis
-          </a>
-          <a 
-            href="#harga"
-            className="w-full sm:w-auto bg-white text-indigo-900 border border-zinc-200 px-8 py-4 font-bold rounded-xl hover:bg-zinc-50 hover:border-zinc-300 transition-all text-[15px] flex items-center justify-center gap-2 shadow-sm"
-          >
-            Lihat Paket Harga <ArrowRight className="w-4 h-4" />
-          </a>
-        </div>
+        <Reveal direction="up" delay={0.1}>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-8 leading-[1.15] text-zinc-900">
+            <HighlightText text={heroTitle} />
+          </h1>
+          
+          <p className="text-lg md:text-xl text-zinc-500 mb-12 max-w-2xl mx-auto leading-relaxed">
+            {heroDesc}
+          </p>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a 
+              href={`${waLink}?text=Halo,%20saya%20tertarik%20untuk%20konsultasi%20website%20travel.`}
+              className="w-full sm:w-auto bg-indigo-900 text-white px-8 py-4 font-bold rounded-xl hover:bg-indigo-950 transition-all text-[15px] flex items-center justify-center gap-2 shadow-lg shadow-indigo-900/20"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Konsultasi Gratis
+            </a>
+            <a 
+              href="#harga"
+              className="w-full sm:w-auto bg-white text-indigo-900 border border-zinc-200 px-8 py-4 font-bold rounded-xl hover:bg-zinc-50 hover:border-zinc-300 transition-all text-[15px] flex items-center justify-center gap-2 shadow-sm"
+            >
+              Lihat Paket Harga <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+        </Reveal>
       </section>
 
       {/* HIGHLIGHTS / 3 BOXES */}
       <section className="pb-24 pt-8 bg-transparent">
         <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-6">
-          <div className="bg-white border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-8 flex flex-col items-center justify-center text-center">
+          <Reveal delay={0.1} className="bg-white border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-8 flex flex-col items-center justify-center text-center">
             <div className="bg-indigo-50/80 text-indigo-600 rounded-2xl w-14 h-14 flex items-center justify-center mb-5">
               <Globe className="w-6 h-6" />
             </div>
             <h3 className="font-bold text-sm text-zinc-900">Desain Modern & Responsif</h3>
-          </div>
+          </Reveal>
           
-          <div className="bg-white border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-8 flex flex-col items-center justify-center text-center">
+          <Reveal delay={0.2} className="bg-white border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-8 flex flex-col items-center justify-center text-center">
             <div className="bg-indigo-50/80 text-indigo-600 rounded-2xl w-14 h-14 flex items-center justify-center mb-5">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <h3 className="font-bold text-sm text-zinc-900">Mudah Dikelola Sendiri</h3>
-          </div>
+          </Reveal>
           
-          <div className="bg-white border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-8 flex flex-col items-center justify-center text-center">
+          <Reveal delay={0.3} className="bg-white border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-8 flex flex-col items-center justify-center text-center">
             <div className="bg-indigo-50/80 text-indigo-600 rounded-2xl w-14 h-14 flex items-center justify-center mb-5">
               <Sparkles className="w-6 h-6" />
             </div>
             <h3 className="font-bold text-sm text-zinc-900">SEO & Speed Optimized</h3>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -158,7 +161,7 @@ export default async function LandingPage() {
           
           {/* LEFT: 3 CARDS */}
           <div className="space-y-4 md:pr-8">
-            <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-5 flex items-center gap-5">
+            <Reveal direction="left" delay={0.1} className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-5 flex items-center gap-5">
               <div className="bg-indigo-50 text-indigo-600 rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
                 <Code className="w-5 h-5" />
               </div>
@@ -166,9 +169,9 @@ export default async function LandingPage() {
                 <h4 className="font-bold text-zinc-900 text-[15px] mb-0.5">WordPress & Elementor</h4>
                 <p className="text-sm text-zinc-500">Platform terpercaya yang mudah dikelola</p>
               </div>
-            </div>
+            </Reveal>
             
-            <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-5 flex items-center gap-5">
+            <Reveal direction="left" delay={0.2} className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-5 flex items-center gap-5">
               <div className="bg-indigo-50 text-indigo-600 rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
                 <Palette className="w-5 h-5" />
               </div>
@@ -176,9 +179,9 @@ export default async function LandingPage() {
                 <h4 className="font-bold text-zinc-900 text-[15px] mb-0.5">Desain Custom</h4>
                 <p className="text-sm text-zinc-500">Tampilan unik sesuai brand travel Anda</p>
               </div>
-            </div>
+            </Reveal>
             
-            <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-5 flex items-center gap-5">
+            <Reveal direction="left" delay={0.3} className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-5 flex items-center gap-5">
               <div className="bg-indigo-50 text-indigo-600 rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
                 <MonitorSmartphone className="w-5 h-5" />
               </div>
@@ -186,11 +189,11 @@ export default async function LandingPage() {
                 <h4 className="font-bold text-zinc-900 text-[15px] mb-0.5">Responsif di Semua Perangkat</h4>
                 <p className="text-sm text-zinc-500">Tampil sempurna di HP, tablet, & laptop</p>
               </div>
-            </div>
+            </Reveal>
           </div>
 
           {/* RIGHT: TEXT */}
-          <div>
+          <Reveal direction="right" delay={0.2}>
             <h2 className="text-indigo-600 font-bold mb-4 uppercase tracking-widest text-sm">Tentang Kami</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold mb-6 text-zinc-900 tracking-tight">
               <HighlightText text={filosofiTitle} />
@@ -208,7 +211,7 @@ export default async function LandingPage() {
               <MessageCircle className="w-5 h-5" />
               Ceritakan Kebutuhan Anda
             </a>
-          </div>
+          </Reveal>
 
         </div>
       </section>
@@ -227,40 +230,40 @@ export default async function LandingPage() {
           <div className="grid md:grid-cols-4 gap-6">
             
             {/* Card 1 */}
-            <div className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
+            <Reveal delay={0.1} className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
               <div className="bg-indigo-50 text-indigo-600 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-indigo-900 group-hover:text-white">
                 <Zap className="w-6 h-6" />
               </div>
               <h4 className="text-lg font-bold mb-4 text-zinc-900">Proses Cepat & Tepat</h4>
               <p className="text-zinc-500 text-sm leading-relaxed">Website travel Anda siap dalam hitungan hari, bukan minggu. Kami bekerja efisien tanpa mengorbankan kualitas, supaya bisnis Anda bisa segera go online.</p>
-            </div>
+            </Reveal>
             
             {/* Card 2 */}
-            <div className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
+            <Reveal delay={0.2} className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
               <div className="bg-indigo-50 text-indigo-600 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-indigo-900 group-hover:text-white">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <h4 className="text-lg font-bold mb-4 text-zinc-900">Aman & Terpercaya</h4>
               <p className="text-zinc-500 text-sm leading-relaxed">Setiap website dilengkapi SSL, keamanan berlapis, dan backup rutin. Data bisnis travel Anda terlindungi dengan baik, jadi Anda bisa fokus jualan.</p>
-            </div>
+            </Reveal>
             
             {/* Card 3 */}
-            <div className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
+            <Reveal delay={0.3} className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
               <div className="bg-indigo-50 text-indigo-600 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-indigo-900 group-hover:text-white">
                 <TrendingUp className="w-6 h-6" />
               </div>
               <h4 className="text-lg font-bold mb-4 text-zinc-900">SEO Friendly</h4>
               <p className="text-zinc-500 text-sm leading-relaxed">Website Anda dioptimasi agar mudah muncul di halaman pertama Google. Calon traveler bisa menemukan bisnis Anda dengan lebih mudah tanpa iklan mahal.</p>
-            </div>
+            </Reveal>
             
             {/* Card 4 */}
-            <div className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
+            <Reveal delay={0.4} className="group bg-white rounded-2xl border border-zinc-100 p-8 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-t-4 hover:border-t-indigo-700 hover:-translate-y-1">
               <div className="bg-indigo-50 text-indigo-600 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-indigo-900 group-hover:text-white">
                 <HeadphonesIcon className="w-6 h-6" />
               </div>
               <h4 className="text-lg font-bold mb-4 text-zinc-900">Support Setelah Jadi</h4>
               <p className="text-zinc-500 text-sm leading-relaxed">Kami nggak lepas tangan setelah website jadi. Ada masa garansi support gratis untuk bantu Anda kalau ada kendala atau butuh perubahan kecil.</p>
-            </div>
+            </Reveal>
 
           </div>
         </div>
@@ -278,7 +281,7 @@ export default async function LandingPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 items-start">
-            {packages.map((pkg) => {
+            {packages.map((pkg, index) => {
               const isPopular = pkg.id === "populer";
               
               // Hardcoded Features matching screenshot
@@ -292,8 +295,9 @@ export default async function LandingPage() {
               }
 
               return (
-                <div 
+                <Reveal 
                   key={pkg.id} 
+                  delay={index * 0.15}
                   className={`bg-white rounded-2xl overflow-hidden transition-all duration-300 ${
                     isPopular 
                       ? 'border-[3px] border-[#10037a] shadow-xl relative' 
@@ -338,7 +342,7 @@ export default async function LandingPage() {
                       ))}
                     </div>
                   </div>
-                </div>
+                </Reveal>
               )
             })}
             
@@ -353,25 +357,27 @@ export default async function LandingPage() {
 
       {/* FOOTER CTA */}
       <section className="py-24 bg-[#10037a] text-center px-6">
-        <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 max-w-3xl mx-auto leading-tight tracking-tight">
-          <HighlightText text={ctaTitle} />
-        </h2>
-        <p className="text-indigo-100/80 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
-          {ctaDesc}
-        </p>
-        <div className="flex flex-col items-center justify-center gap-4">
-          <a 
-            href={`${waLink}?text=Halo,%20saya%20tertarik%20untuk%20konsultasi%20website%20travel.`}
-            className="inline-flex items-center gap-2 bg-white text-[#10037a] px-8 py-4 font-bold rounded-xl hover:bg-zinc-100 transition-colors shadow-lg text-[15px]"
-          >
-            <MessageCircle className="w-5 h-5" />
-            Konsultasi Gratis Sekarang
-          </a>
-          <div className="flex items-center gap-2 text-sm text-indigo-200/70 mt-2">
-            <ArrowRight className="w-4 h-4" />
-            <span>Balas chat biasanya kurang dari 5 menit</span>
+        <Reveal direction="up" delay={0.2}>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 max-w-3xl mx-auto leading-tight tracking-tight">
+            <HighlightText text={ctaTitle} />
+          </h2>
+          <p className="text-indigo-100/80 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+            {ctaDesc}
+          </p>
+          <div className="flex flex-col items-center justify-center gap-4">
+            <a 
+              href={`${waLink}?text=Halo,%20saya%20tertarik%20untuk%20konsultasi%20website%20travel.`}
+              className="inline-flex items-center gap-2 bg-white text-[#10037a] px-8 py-4 font-bold rounded-xl hover:bg-zinc-100 transition-colors shadow-lg text-[15px]"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Konsultasi Gratis Sekarang
+            </a>
+            <div className="flex items-center gap-2 text-sm text-indigo-200/70 mt-2">
+              <ArrowRight className="w-4 h-4" />
+              <span>Balas chat biasanya kurang dari 5 menit</span>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* FOOTER */}
