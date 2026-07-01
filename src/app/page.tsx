@@ -352,20 +352,48 @@ export default async function LandingPage() {
       </section>
 
       {/* FOOTER CTA */}
-      <section className="py-24 bg-indigo-950 text-center px-6 border-t-8 border-indigo-600">
+      <section className="py-24 bg-[#10037a] text-center px-6">
         <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 max-w-3xl mx-auto leading-tight tracking-tight">
-          {ctaTitle}
+          <HighlightText text={ctaTitle} />
         </h2>
-        <p className="text-indigo-200 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+        <p className="text-indigo-100/80 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
           {ctaDesc}
         </p>
-        <a 
-          href={`${waLink}?text=Halo,%20saya%20ingin%20menjadwalkan%20sesi%20konsultasi.`}
-          className="inline-block bg-white text-indigo-900 px-8 py-4 font-extrabold rounded-xl hover:bg-zinc-100 transition-colors shadow-xl text-lg"
-        >
-          Hubungi Kami Sekarang
-        </a>
+        <div className="flex flex-col items-center justify-center gap-4">
+          <a 
+            href={`${waLink}?text=Halo,%20saya%20tertarik%20untuk%20konsultasi%20website%20travel.`}
+            className="inline-flex items-center gap-2 bg-white text-[#10037a] px-8 py-4 font-bold rounded-xl hover:bg-zinc-100 transition-colors shadow-lg text-[15px]"
+          >
+            <MessageCircle className="w-5 h-5" />
+            Konsultasi Gratis Sekarang
+          </a>
+          <div className="flex items-center gap-2 text-sm text-indigo-200/70 mt-2">
+            <ArrowRight className="w-4 h-4" />
+            <span>Balas chat biasanya kurang dari 5 menit</span>
+          </div>
+        </div>
       </section>
+
+      {/* FOOTER */}
+      <footer className="bg-white border-t border-zinc-200 pt-16 pb-8">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-16">
+            <div>
+              <div className="font-bold text-2xl tracking-tight text-indigo-950 mb-2">Rafiwpsite</div>
+              <p className="text-zinc-500 text-sm">Spesialis Website Travel dengan WordPress & Elementor</p>
+            </div>
+            <div className="flex flex-wrap gap-6 text-sm font-medium text-zinc-500">
+              <a href="#filosofi" className="hover:text-indigo-900 transition-colors">Tentang</a>
+              <a href="#keunggulan" className="hover:text-indigo-900 transition-colors">Kelebihan</a>
+              <a href="#harga" className="hover:text-indigo-900 transition-colors">Harga</a>
+              <a href={`${waLink}`} className="hover:text-indigo-900 transition-colors">Kontak</a>
+            </div>
+          </div>
+          <div className="border-t border-zinc-100 pt-8 text-center text-sm text-zinc-400">
+            © 2026 Rafiwpsite. All rights reserved.
+          </div>
+        </div>
+      </footer>
 
     </main>
   )
